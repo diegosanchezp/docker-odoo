@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="view_pendientes_reabastecimiento_list" model="ir.ui.view">
+        <field name="name">product.template.pendientes.reabastecimiento.list</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <list default_group_by="prioridad_reabastecimiento">
+                <field name="name" string="Producto"/>
+                <field name="prioridad_reabastecimiento" string="Prioridad"/>
+                <field name="qty_available" string="Stock actual"/>
+                <field name="stock_objetivo" string="Stock objetivo"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_pendientes_reabastecimiento" model="ir.actions.act_window">
+        <field name="name">Pendientes de reabastecimiento</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_pendientes_reabastecimiento_list')})]"/>
+        <field name="domain">[('pendiente_reabastecimiento', '=', True)]</field>
+    </record>
+
+    <menuitem id="menu_pendientes_de_reabastecimiento"
+              name="Pendientes de reabastecimiento"
+              parent="stock.menu_stock_inventory_control"
+              action="action_pendientes_reabastecimiento"
+              sequence="2"/>
+</odoo>
