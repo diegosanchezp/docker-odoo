@@ -7,6 +7,9 @@ from odoo import api, fields, models, tools
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
+    #####################
+    # Campos del Ejercicio Reglas de Reabastecimiento por Prioridad
+    #####################
     prioridad_reabastecimiento = fields.Selection(
         string="Prioridad de Reabastecimiento",
         selection=[
@@ -27,6 +30,30 @@ class ProductTemplate(models.Model):
         store=True,
     )
 
+    #####################
+    # Campos del Ejercicio, Inventario: Clasificación Operativa de Productos
+    #####################
+    stock_operation_tag_ids = fields.Many2many(
+        string="Etiquetas",
+        comodel_name="stock.operation.tag",
+    )
+
+    operation_type_ids = fields.Many2many(
+        string="Tipos de Operación",
+        comodel_name="stock.picking.type",
+        compute="_compute_operation_type_ids",
+        store=True,
+    )
+
+    @api.depends("stock_operation_tag_ids", "stock_operation_tag_ids.operation_type")
+    def _compute_operation_type_ids(self):
+        for product in self:
+            product.operation_type_ids = product.stock_operation_tag_ids.operation_type
+
+
+    #####################
+    # Métodos del Ejercicio, Inventario: Reglas de Reabastecimiento por Prioridad
+    #####################
     @api.depends("pendiente_reabastecimiento", "qty_available")
     def _compute_pendiente_reabastecimiento(self):
         """

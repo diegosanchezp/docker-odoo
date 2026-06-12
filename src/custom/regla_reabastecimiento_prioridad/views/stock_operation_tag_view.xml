@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- stock.operation.tag form view -->
+    <record id="stock_operation_tag_form" model="ir.ui.view">
+        <field name="name">stock.operation.tag.form</field>
+        <field name="model">stock.operation.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="name" placeholder="Nombre de la etiqueta"/>
+                    <group>
+                        <group>
+                            <field name="operation_type"/>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="product_template_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- stock.operation.tag list view -->
+    <record id="stock_operation_tag_list" model="ir.ui.view">
+        <field name="name">stock.operation.tag.list</field>
+        <field name="model">stock.operation.tag</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="operation_type"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_config_etiquetas_producto" model="ir.actions.act_window">
+        <field name="name">Etiquetas de Producto</field>
+        <field name="res_model">stock.operation.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="config_etiquetas_producto"
+              name="Etiquetas Producto"
+              parent="stock.menu_product_in_config_stock"
+              action="action_config_etiquetas_producto"
+              sequence="1"/>
+
+</odoo>

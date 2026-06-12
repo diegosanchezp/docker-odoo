@@ -8,7 +8,69 @@
         <xpath expr="//page[@name='general_information']//field[@name='show_qty_update_button']" position="after">
                 <field name="stock_objetivo"/>
                 <field name="prioridad_reabastecimiento"/>
+                <field name="stock_operation_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" can_create="True"/>
             </xpath>
         </field>
     </record>
+
+    <!-- product.template kanban view for operative product classification -->
+    <record id="product_template_operativa_kanban" model="ir.ui.view">
+        <field name="name">product.template.operativa.kanban</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="operation_type_ids" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="stock_operation_tag_ids"/>
+                <field name="operation_type_ids"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <h4 class="o_kanban_card_title">
+                                        <field name="name"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="o_kanban_card_content">
+                                <div t-if="record.stock_operation_tag_ids.raw_value.length" class="o_kanban_primary_small">
+                                    <strong>Etiquetas: </strong>
+                                    <field name="stock_operation_tag_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- product.template search view for operative product classification -->
+    <record id="product_template_operativa_search" model="ir.ui.view">
+        <field name="name">product.template.operativa.search</field>
+        <field name="model">product.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <group>
+                    <filter name="group_by_operation_type" string="Tipo de Operación" context="{'group_by': 'operation_type_ids'}"/>
+                    <filter name="group_by_tag" string="Etiqueta" context="{'group_by': 'stock_operation_tag_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_operativa_productos" model="ir.actions.act_window">
+        <field name="name">Operativa de productos</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="product_template_operativa_kanban"/>
+        <field name="search_view_id" ref="product_template_operativa_search"/>
+    </record>
+
+    <menuitem id="menu_operativa_de_productos"
+              name="Operativa de productos"
+              parent="stock.menu_stock_inventory_control"
+              action="action_operativa_productos"
+              sequence="3"/>
 </odoo>
