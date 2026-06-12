@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_producto_prioritario" model="ir.cron">
+        <field name="name">Verificar existencia de Productos a reabastecer</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="model_id" ref="stock.model_product_template"/>
+        <field name="code">model._identificar_stock_debajo()</field>
+        <field name="state">code</field>
+    </record>
+</odoo>
