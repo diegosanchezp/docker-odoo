@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="account_fiscal_profile_list">
+      <field name="name">Perfiles fiscales</field>
+      <field name="model">account.fiscal.profile</field>
+      <field name="arch" type="xml">
+        <list editable="top" default_order="name desc">
+          <field name="name"/>
+          <field name="tax_id"/>
+        </list>
+      </field>
+    </record>
+
+    <record id="action_account_fiscal_profile" model="ir.actions.act_window">
+        <field name="name">Perfiles fiscales</field>
+        <field name="res_model">account.fiscal.profile</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem
+      name="Perfiles fiscales"
+      id="binaural_accounting_menu_root"
+      action="action_account_fiscal_profile"
+      sequence="2"
+      parent="account.account_account_menu"
+    />
+
+  </data>
+</odoo>
