@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="pos_order_hourly_discount_rule_list" model="ir.ui.view">
+        <field name="name">pos.order.hourly.discount.rule.list</field>
+        <field name="model">pos.order.hourly.discount.rule</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="hour_from" widget="float_time"/>
+                <field name="hour_to" widget="float_time"/>
+                <field name="discount_percentage" widget="percentage"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pos_order_hourly_discount_rule_form" model="ir.ui.view">
+        <field name="name">pos.order.hourly.discount.rule.form</field>
+        <field name="model">pos.order.hourly.discount.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="hour_from" widget="float_time" options="{'show_date': false}"/>
+                        <field name="hour_to" widget="float_time" options="{'show_date': false}"/>
+                        <field name="discount_percentage" help="% de descuento"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pos_order_hourly_discount_rule" model="ir.actions.act_window">
+        <field name="name">Descuentos por hora</field>
+        <field name="res_model">pos.order.hourly.discount.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_pos_order_hourly_discount_rule"
+        name="Reglas Descuentos por hora"
+        parent="point_of_sale.menu_point_config_product"
+        action="action_pos_order_hourly_discount_rule"
+        sequence="5"/>
+
+</odoo>
