@@ -1,6 +1,8 @@
 from odoo.tests import common
+from odoo.tests import tagged
 
-# odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/regla_reabastecimiento_prioridad:TestReglaReabastecimiento
+# odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/binaural_inventory:TestReglaReabastecimiento
+@tagged('post_install', '-at_install')
 class TestReglaReabastecimiento(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -14,7 +16,7 @@ class TestReglaReabastecimiento(common.TransactionCase):
             }
         )
 
-    # odoo --config=local.conf --http-port=8070 --test-enable --test-tags=/regla_reabastecimiento_prioridad:TestReglaReabastecimiento.test_compute_pendiente_reabastecimiento
+    # odoo --config=local.conf --http-port=8070 --test-enable --test-tags=/binaural_inventory:TestReglaReabastecimiento.test_compute_pendiente_reabastecimiento
     def test_compute_pendiente_reabastecimiento(self):
         """Verifica que pendiente_reabastecimiento sea True cuando qty_available < stock_objetivo"""
         # Asignar de cantidad stock de stock 1 al product_escritorio_id
@@ -35,7 +37,7 @@ class TestReglaReabastecimiento(common.TransactionCase):
         # pendiente_reabastecimiento deberia de ser true.
         self.assertTrue(self.product_escritorio_id.pendiente_reabastecimiento)
 
-    # odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/regla_reabastecimiento_prioridad:TestReglaReabastecimiento.test_identificar_stock_debajo
+    # odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/binaural_inventory:TestReglaReabastecimiento.test_identificar_stock_debajo
     def test_identificar_stock_debajo(self):
         """Verifica que _identificar_stock_debajo cree una mail.activity de tipo To-Do para el producto con stock bajo"""
         # Crear un stock.quant con cantidad 1 para que el producto tenga qty_available = 1
@@ -85,7 +87,7 @@ class TestReglaReabastecimiento(common.TransactionCase):
         # Verificar que la actividad esta marcada como automatica
         self.assertTrue(actividad.automated)
 
-    # odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/regla_reabastecimiento_prioridad:TestReglaReabastecimiento.test_identificar_stock_debajo_no_duplicados
+    # odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/binaural_inventory:TestReglaReabastecimiento.test_identificar_stock_debajo_no_duplicados
     def test_identificar_stock_debajo_no_duplicados(self):
         """Verifica que llamar _identificar_stock_debajo dos veces no cree mail.activity duplicadas"""
         # Crear un stock.quant con cantidad 1 para que el producto tenga qty_available = 1

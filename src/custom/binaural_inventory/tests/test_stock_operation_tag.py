@@ -1,7 +1,8 @@
 from odoo.fields import Command
-from odoo.tests import common
+from odoo.tests import common, tagged
 
-# odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/regla_reabastecimiento_prioridad:TestStockOperationTag
+# odoo --config=config/local.conf --http-port=8070 --test-enable --test-tags=/binaural_inventory:TestStockOperationTag
+@tagged('post_install', '-at_install')
 class TestStockOperationTag(common.TransactionCase):
     @classmethod
     def setUpClass(cls):

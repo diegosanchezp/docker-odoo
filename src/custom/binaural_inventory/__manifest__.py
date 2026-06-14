@@ -1,5 +1,5 @@
 {
-    'name': "regla_reabastecimiento_prioridad",
+    'name': "binaural_inventory",
 
     'summary': "Short (1 phrase/line) summary of the module's purpose",
 
