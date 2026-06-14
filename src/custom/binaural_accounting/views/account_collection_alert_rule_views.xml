@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="overdue_invoices_view" model="ir.ui.view">
+        <field name="name">account.move.overdue.invoice.list</field>
+        <field name="model">account.move.overdue.invoice</field>
+        <field name="arch" type="xml">
+            <list create="False" default_group_by="risk_level">
+                <field name="invoice_id" options="{'no_open': False}" string="Factura"/>
+                <field name="risk_level" widget="badge"/>
+                <field name="days_overdue" />
+                <field name="alert_rule" string="Reglas Alerta" options="{'no_open': False}"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_account_invoice_overdue" model="ir.actions.act_window">
+        <field name="name">Facturas con riesgo de impago</field>
+        <field name="res_model">account.move.overdue.invoice</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem 
+        id="binaural_accounting_facturas_riesgo_impago"
+        name="Facturas Riesgo Impago"
+        action="action_account_invoice_overdue"
+        parent="account.menu_finance_reports"
+    />
+
+    <record id="reglas_cobro_form_view" model="ir.ui.view">
+        <field name="name">account.collection.alert.rule.form</field>
+        <field name="model">account.collection.alert.rule</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="days_overdue"/>
+                    </group>
+                    <group>
+                        <field name="amount_min"/>
+                        <field name="risk_level" widget="badge"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="reglas_cobro_list_view" model="ir.ui.view">
+        <field name="name">account.collection.alert.rule.list</field>
+        <field name="model">account.collection.alert.rule</field>
+        <field name="arch" type="xml">
+            <list >
+                <field name="name" />
+                <field name="days_overdue" />
+                <field name="amount_min" />
+                <field name="risk_level" widget="badge" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_account_alert_rule" model="ir.actions.act_window">
+        <field name="name">Reglas Facturas Riesgo Impago</field>
+        <field name="res_model">account.collection.alert.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        name="Reglas Facturas Riesgo"
+        action="action_account_alert_rule"
+        id="binaural_accounting_invoice_alert_rule"
+        sequence="2"
+        parent="account.account_account_menu"
+    />
+</odoo>

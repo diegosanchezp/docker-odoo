@@ -22,11 +22,12 @@ Long description of module's purpose
     # always loaded
     'data': [
         'data/account_data_tax.xml',
-
+        'data/ir_cron.xml',
         'security/ir.model.access.csv',
 
         "views/account_fiscal_profile_views.xml",
         "views/res_partner_views.xml",
+        "views/account_collection_alert_rule_views.xml",
     ],
     # only loaded in demonstration mode
     'demo': [
