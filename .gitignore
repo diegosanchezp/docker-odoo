@@ -1,6 +1,5 @@
 .env
 instances.json
-src
 .resources/Dockerfile
 .resources/Dockerfile.*
 !.resources/Dockerfile.template
