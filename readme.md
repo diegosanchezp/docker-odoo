@@ -1,3 +1,103 @@
+# Binaural prueba técnica - Diego Sánchez.
+
+Este repositorio contiene la solución a los ejercicios de la prueba técnica de Binaural para desarrollador de Odoo.
+
+Para instalar los módulos de Odoo de la solución ubicados en la carpeta [src/custom](./src/custom/), se requieren ejecutar los pasos de la sección [Pasos de configuración](#pasos-de-configuración).
+
+Cada uno de los módulos cuenta con su propia documentación sobre como probarlos. Si esta viendo este repositorio desde Github, visite alguna de las carpetas de los módulos que están bajo `src/custom` y podrá visualizar la documentación.
+
+## Pasos de configuración
+Se requiere que docker y docker-compose estén instalados en sus sistema operativo. Se trabaja con la versión 19 de Odoo.
+
+Después de haber clonado el repositorio, ejecute estos comandos. 
+
+1. Crear el fichero `instances.json` con el siguiente contenido.
+```json
+{
+  "odoo_configs": {
+    "19.0_default": {
+      "admin_password": "admin",
+      "workers": 2,
+      "without_demo": true,
+      "list_db": true,
+      "proxy_mode": true,
+      "limit_memory_soft": 16000000000,
+      "limit_memory_hard": 17000000000,
+      "max_cron_threads": 1,
+      "limit_time_real_cron": 0,
+      "limit_time_real": 3600,
+      "limit_time_cpu": 60,
+      "db_maxconn": 200,
+      "unaccent": false,
+      "server_wide_modules": "",
+      "addons": [
+        "src/enterprise"
+      ]
+    },
+  },
+  "databases": {
+    "pg18": {
+      "postgres_version": 18,
+      "port": 5432,
+      "user": "odoo",
+      "password": "odoo",
+      "config": "postgresql.conf"
+    }
+  },
+  "instances": {
+    "prueba_tecnica": {
+      "odoo_version": "19.0",
+      "external_port": 8070,
+      "database": "pg18",
+      "odoo_config": "19.0_default",
+      "overwrite_odoo_config": {
+        "workers": 4,
+        "addons": [
+          "src/custom"
+        ],
+        "db_name": "odoo"
+      }
+    }
+  },
+  "pgadmin": {
+    "enabled": false,
+    "port": 5050,
+    "email": "admin@admin.com",
+    "password": "admin"
+  }
+}
+```
+
+2. Construir las imágenes de docker
+```bash
+./odoo build
+```
+
+3. Iniciar los contenedores de docker
+```bash
+./odoo start prueba_tecnica
+```
+
+4. Instalar módulos de Odoo de la carpeta `src/custom`.
+```bash
+docker exec -u odoo -it odoo-prueba_tecnica odoo --init=binaural_accounting,binaural_inventory,binaural_pos -d odoo --http-port=8075 --without-demo=True --stop-after-init -c /home/odoo/.config/odoo.conf
+```
+
+5. Finalmente visite `http://localhost:8070/odoo/` para ingresar al panel de administración de Odoo.
+
+# Ejecutar Pruebas unitarias
+
+Para ejecutar pruebas unitarias se require que tenga creada una base de datos llamada `testing`. Lo puede hacer en http://localhost:8070/web/database/manager. Poner la misma contraseña que la de bd que no es de testing.
+
+1. Instalar módulos en la base de datos de testing
+```bash
+docker exec -u odoo -it odoo-prueba_tecnica odoo --init=binaural_accounting,binaural_inventory,binaural_pos -d testing --http-port=8075 --without-demo=True --stop-after-init -c /home/odoo/.config/odoo.conf
+```
+
+2. Correr pruebas unitarias.
+```bash
+docker exec -u odoo -it odoo-prueba_tecnica odoo --test-tags=binaural_accounting,binaural_inventory,binaural_pos -d testing --http-port=8075 --without-demo=True --stop-after-init -c /home/odoo/.config/odoo.conf
+```
 # Binaural Workspace — Multi-Instance Odoo Docker
 
 Entorno de desarrollo que permite levantar **múltiples instancias de Odoo** (diferentes versiones, diferentes proyectos) desde un único directorio, cada una con sus propios addons, base de datos y puerto. Todo se configura en un archivo `instances.json`.
