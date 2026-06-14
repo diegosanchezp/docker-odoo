@@ -25,4 +25,5 @@ class StockOperationTag(models.Model):
     operation_type = fields.Many2one(
         comodel_name="stock.picking.type",
         string="Tipo de Operación",
+        required=True,
     )
