@@ -1,10 +1,10 @@
-from unittest.mock import patch
 from freezegun import freeze_time
 from odoo.exceptions import ValidationError
 
-from odoo.tests import common
+from odoo.tests import common, tagged
 
 # odoo --config=config/local.conf --http-port=8075 --test-enable --test-tags=/binaural_pos:TestPosOrder --stop-after-init
+@tagged('post_install', '-at_install')
 class TestPosOrder(common.TransactionCase):
 
     @classmethod

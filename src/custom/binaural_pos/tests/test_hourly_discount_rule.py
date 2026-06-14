@@ -1,8 +1,9 @@
-from odoo.tests import common
+from odoo.tests import common, tagged
 from odoo.exceptions import ValidationError
 
 
 # odoo --config=config/local.conf --http-port=8075 --test-enable --test-tags=/binaural_pos:TestHourlyDiscountRule
+@tagged('post_install', '-at_install')
 class TestHourlyDiscountRule(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
